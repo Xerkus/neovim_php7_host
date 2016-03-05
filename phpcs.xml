@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="NeovimHost">
+ <description>PSR-2 based strict php 7 coding standard.</description>
+ <arg name="encoding" value="utf-8"/>
+ <arg name="colors"/>
+
+ <file>./src/</file>
+ <file>./test/</file>
+
+ <rule ref="PSR2"/>
+ <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+</ruleset>

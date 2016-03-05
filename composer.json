@@ -1,0 +1,26 @@
+{
+    "name": "xerkus/neovim_php7_host",
+    "description": "Prototype for php 7 pthreads based plugin host for neovim",
+    "type": "library",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Aleksei Khudiakov",
+            "email": "aleksey@xerkus.pro"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "ext-pthreads": "*",
+        "ext-msgpack": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0",
+        "squizlabs/php_codesniffer": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Xerkus\\Neovim\\": "src/"
+        }
+    }
+}
