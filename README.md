@@ -1,6 +1,9 @@
 # Neovim php 7 plugin host
 
 [![Build Status](https://travis-ci.org/Xerkus/neovim_php7_host.svg?branch=master)](https://travis-ci.org/Xerkus/neovim_php7_host)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Xerkus/neovim_php7_host/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Xerkus/neovim_php7_host/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/Xerkus/neovim_php7_host/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Xerkus/neovim_php7_host/?branch=master)
+
 
 Prototype for php 7 pthreads based plugin host for neovim. Experimental, do not use.
 
