@@ -1,0 +1,22 @@
+language: php
+
+sudo: false
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.cache/composer
+    - /tmp/pear/download
+
+php:
+  - 7.0
+
+before_install:
+  - pecl install pthreads
+  - pecl install -f msgpack
+  - phpenv config-rm xdebug.ini
+
+install:
+  - composer install
+
+script:
+  - phpdbg -qrr vendor/bin/phpunit --coverage-text

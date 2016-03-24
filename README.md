@@ -1,4 +1,7 @@
 # Neovim php 7 plugin host
+
+[![Build Status](https://travis-ci.org/Xerkus/neovim_php7_host.svg?branch=master)](https://travis-ci.org/Xerkus/neovim_php7_host)
+
 Prototype for php 7 pthreads based plugin host for neovim. Experimental, do not use.
 
 # Dependencies
