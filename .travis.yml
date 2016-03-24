@@ -5,6 +5,7 @@ cache:
   directories:
     - $HOME/.composer/cache
     - $HOME/.cache/composer
+    - ocular.phar
 
 php:
   - 7.0
@@ -16,11 +17,11 @@ before_install:
 
 install:
   - composer install
+  - [ -f ocular.phar ] || wget https://scrutinizer-ci.com/ocular.phar
 
 script:
   - phpdbg -qrr vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
   - vendor/bin/phpcs
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
