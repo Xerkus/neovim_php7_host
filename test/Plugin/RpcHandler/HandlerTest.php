@@ -61,7 +61,7 @@ class HandlerTest extends PHPUnit_Framework_TestCase
         $cb2 = function () {
         };
 
-        $handler2 = $handler->withCallback($cb2);
+        $handler->withCallback($cb2);
 
         self::assertSame($cb, $handler->getCallback());
         self::assertNotSame($cb2, $handler->getCallback());
