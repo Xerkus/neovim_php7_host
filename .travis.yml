@@ -20,3 +20,4 @@ install:
 
 script:
   - phpdbg -qrr vendor/bin/phpunit --coverage-text
+  - vendor/bin/phpcs
