@@ -5,7 +5,6 @@ cache:
   directories:
     - $HOME/.composer/cache
     - $HOME/.cache/composer
-    - /tmp/pear/download
 
 php:
   - 7.0
