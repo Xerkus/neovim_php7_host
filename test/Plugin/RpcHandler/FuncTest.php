@@ -47,7 +47,7 @@ class FuncTest extends PHPUnit_Framework_TestCase
      */
     public function testNamedConstructorSetsAllValues()
     {
-        $func = Func::createFunction('TestFunc', true, true,'someEval()');
+        $func = Func::createFunction('TestFunc', true, true, 'someEval()');
         self::assertEquals('function', $func->getType());
         self::assertEquals('TestFunc', $func->getName());
         self::assertTrue($func->getIsSync());
