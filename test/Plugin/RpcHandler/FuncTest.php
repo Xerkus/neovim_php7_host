@@ -91,8 +91,9 @@ class FuncTest extends PHPUnit_Framework_TestCase
      */
     public function testFunctionNameMustBeString()
     {
-        $this->setExpectedExceptionRegExp(TypeError::class, '/must be of the type string/');
-        $func = new Func(['name' => true]);
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageRegExp('/must be of the type string/');
+        new Func(['name' => true]);
     }
 
     /**
@@ -100,8 +101,9 @@ class FuncTest extends PHPUnit_Framework_TestCase
      */
     public function testFunctionNameMustNotBeEmpty()
     {
-        $this->setExpectedException(RuntimeException::class, 'Invalid function name');
-        $func = new Func(['name' => '']);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid function name');
+        new Func(['name' => '']);
     }
 
     /**
@@ -109,8 +111,9 @@ class FuncTest extends PHPUnit_Framework_TestCase
      */
     public function testFunctionNameIsRequired()
     {
-        $this->setExpectedException(RuntimeException::class, 'Function name is required');
-        $func = new Func([]);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Function name is required');
+        new Func([]);
     }
 
     /**
@@ -118,8 +121,9 @@ class FuncTest extends PHPUnit_Framework_TestCase
      */
     public function testSyncMustBeBool()
     {
-        $this->setExpectedExceptionRegExp(TypeError::class, '/must be of the type bool/');
-        $func = new Func(['name' => 'TestFunc', 'sync' => 1]);
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageRegExp('/must be of the type bool/');
+        new Func(['name' => 'TestFunc', 'sync' => 1]);
     }
 
     /**
@@ -127,8 +131,9 @@ class FuncTest extends PHPUnit_Framework_TestCase
      */
     public function testRangeMustBeBool()
     {
-        $this->setExpectedExceptionRegExp(TypeError::class, '/must be of the type bool/');
-        $func = new Func(['name' => 'TestFunc', 'range' => 1]);
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageRegExp('/must be of the type bool/');
+        new Func(['name' => 'TestFunc', 'range' => 1]);
     }
 
     /**
@@ -136,8 +141,9 @@ class FuncTest extends PHPUnit_Framework_TestCase
      */
     public function testEvalMustBeString()
     {
-        $this->setExpectedExceptionRegExp(TypeError::class, '/must be of the type string/');
-        $func = new Func(['name' => 'TestFunc', 'eval' => 1]);
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageRegExp('/must be of the type string/');
+        new Func(['name' => 'TestFunc', 'eval' => 1]);
     }
 
     /**

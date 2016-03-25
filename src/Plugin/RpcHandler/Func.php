@@ -133,7 +133,7 @@ final class Func implements RpcSpec
     private function setEval(string $eval = null)
     {
         unset($this->opts['eval']);
-        if ($eval) {
+        if (!empty($eval)) {
             $this->opts['eval'] = $eval;
         }
     }

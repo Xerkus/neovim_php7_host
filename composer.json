@@ -16,7 +16,7 @@
     },
     "require-dev": {
         "doctrine/annotations": "^1.2",
-        "phpunit/phpunit": "^5.0",
+        "phpunit/phpunit": "^5.2",
         "squizlabs/php_codesniffer": "dev-master as 2.5.1"
     },
     "autoload": {
