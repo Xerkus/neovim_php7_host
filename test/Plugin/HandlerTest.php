@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace XerkusTest\Neovim\Plugin\RpcHandler;
+namespace XerkusTest\Neovim\Plugin;
 
 use PHPUnit_Framework_TestCase;
-use Xerkus\Neovim\Plugin\RpcHandler\Handler;
+use Xerkus\Neovim\Plugin\Handler;
 use Xerkus\Neovim\Plugin\RpcHandler\RpcSpec;
 
 /**
  *
- * @coversDefaultClass Xerkus\Neovim\Plugin\RpcHandler\Handler
+ * @coversDefaultClass Xerkus\Neovim\Plugin\Handler
  * @covers ::<!public>
  */
 class HandlerTest extends PHPUnit_Framework_TestCase

@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Xerkus\Neovim\Plugin\RpcHandler;
+namespace Xerkus\Neovim\Plugin;
+
+use Xerkus\Neovim\Plugin\RpcHandler\RpcSpec;
 
 final class Handler
 {

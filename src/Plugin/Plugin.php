@@ -18,7 +18,7 @@ interface Plugin
     /**
      * Returns rpc handlers
      *
-     * @return RpcHandler\Handler[]
+     * @return Handler[]
      */
     public function getRpcHandlers() : array;
 

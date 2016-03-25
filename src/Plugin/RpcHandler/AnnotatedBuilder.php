@@ -7,6 +7,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use ReflectionClass;
 use ReflectionMethod;
+use Xerkus\Neovim\Plugin\Handler;
 use Xerkus\Neovim\Plugin\Plugin;
 
 final class AnnotatedBuilder
