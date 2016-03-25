@@ -16,6 +16,11 @@ trait RpcSpecTrait
     /**
      * @inheritDoc
      */
+    abstract public function getType() : string;
+
+    /**
+     * @inheritDoc
+     */
     public function getName() : string
     {
         return $this->name;
