@@ -17,7 +17,7 @@ before_install:
 
 install:
   - composer install
-  - [ -f ocular.phar ] || wget https://scrutinizer-ci.com/ocular.phar
+  - "[ -f ocular.phar ] || wget https://scrutinizer-ci.com/ocular.phar"
 
 script:
   - phpdbg -qrr vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
