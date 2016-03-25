@@ -10,11 +10,6 @@ namespace Xerkus\Neovim\Plugin\RpcHandler;
 interface RpcSpec
 {
     /**
-     * Rpc method name, usually "{$path}:{$type}:{$name}"
-     */
-    public function getMethodName() : string;
-
-    /**
      * Rpc type
      */
     public function getType() : string;
@@ -25,9 +20,9 @@ interface RpcSpec
     public function getName() : string;
 
     /**
-     * Sync-ed rpc calls are blocking neovim
+     * Neovim is blocking on sync-ed rpc calls.
      *
-     * Async call does not block and ignores return value or errors
+     * Async calls are not blocking but they ignore any return values or errors
      *
      * Note to implementors: blocking call does not mean plugin can not receive
      * nested calls. Be carefull not to cause deadlock
@@ -35,9 +30,9 @@ interface RpcSpec
     public function getIsSync() : bool;
 
     /**
-     * List of Rpc options
+     * Full rpc method name, usually "{$pluginPath}:{$type}:{$name}"
      */
-    public function getOpts() : array;
+    public function getMethodName() : string;
 
     /**
      * Rpc handler spec as array prepared for export to neovim
@@ -55,12 +50,17 @@ interface RpcSpec
     public function getShouldExport() : bool;
 
     /**
+     * Path of the plugin exposing this handler.
      *
+     * Path is injected by plugin container, any value set by plugin itself
+     * will not be used
+     *
+     * @return string|null Plugin path if porvided or null
      */
     public function getPluginPath();
 
     /**
-     * Returns spec with plugin path $pluginPath
+     * Returns copy of spec object with plugin path
      */
     public function withPluginPath(string $pluginPath = null) : self;
 }
