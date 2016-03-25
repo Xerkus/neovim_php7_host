@@ -11,12 +11,11 @@ use RuntimeException;
  */
 final class Func implements RpcSpec
 {
-    private $name;
-    private $sync = false;
+    use RpcSpecTrait;
+
     private $opts = [
         'range' => false,
     ];
-    private $pluginPath;
 
     /**
      *Array of values as passed from annotations reader
@@ -29,7 +28,7 @@ final class Func implements RpcSpec
             throw new RuntimeException('Function name is required');
         }
         $this->setName($name);
-        $this->setSync($values['sync'] ?? $this->sync);
+        $this->setSync($values['sync'] ?? false);
         $this->setRange($values['range'] ?? false);
         $this->setEval($values['eval'] ?? null);
     }
@@ -52,59 +51,14 @@ final class Func implements RpcSpec
         return new self($values);
     }
 
-    public function getMethodName() : string
-    {
-        $method = $this->getType() . ':' . $this->name;
-        if (!empty($this->pluginPath)) {
-            $method = $this->pluginPath . ':' . $method;
-        }
-        return $method;
-    }
-
     public function getType() : string
     {
         return 'function';
     }
 
-    public function getName() : string
-    {
-        return $this->name;
-    }
-
-    public function getIsSync() : bool
-    {
-        return $this->sync;
-    }
-
-    public function getOpts() : array
+    protected function prepareOpts() : array
     {
         return $this->opts;
-    }
-
-    public function getSpecArray() : array
-    {
-        return [
-            'type' => $this->getType(),
-            'name' => $this->getName(),
-            'sync' => $this->sync,
-            'opts' => $this->opts,
-        ];
-    }
-
-    public function getPluginPath()
-    {
-        return $this->pluginPath;
-    }
-
-    /**
-     * Returns spec with plugin path $pluginPath
-     */
-    public function withPluginPath(string $pluginPath = null) : RpcSpec
-    {
-        $new = clone($this);
-        $new->pluginPath = $pluginPath;
-
-        return $new;
     }
 
     public function getShouldExport() : bool

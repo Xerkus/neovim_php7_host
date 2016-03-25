@@ -19,7 +19,6 @@ class RawHandlerTest extends PHPUnit_Framework_TestCase
      * @covers ::getType
      * @covers ::getName
      * @covers ::getIsSync
-     * @covers ::getOpts
      */
     public function testAllValuesAreProperlySet()
     {
@@ -30,7 +29,6 @@ class RawHandlerTest extends PHPUnit_Framework_TestCase
         self::assertEquals('raw_handler', $raw->getType());
         self::assertEquals('TestHandler', $raw->getName());
         self::assertTrue($raw->getIsSync());
-        self::assertEmpty($raw->getOpts());
     }
 
     /**
@@ -38,7 +36,6 @@ class RawHandlerTest extends PHPUnit_Framework_TestCase
      * @covers ::getType
      * @covers ::getName
      * @covers ::getIsSync
-     * @covers ::getOpts
      */
     public function testNamedConstructorSetsAllValues()
     {
@@ -46,7 +43,6 @@ class RawHandlerTest extends PHPUnit_Framework_TestCase
         self::assertEquals('raw_handler', $raw->getType());
         self::assertEquals('TestHandler', $raw->getName());
         self::assertTrue($raw->getIsSync());
-        self::assertEmpty($raw->getOpts());
     }
 
     /**

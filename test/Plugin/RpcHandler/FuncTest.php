@@ -19,7 +19,6 @@ class FuncTest extends PHPUnit_Framework_TestCase
      * @covers ::getType
      * @covers ::getName
      * @covers ::getIsSync
-     * @covers ::getOpts
      */
     public function testAllValuesAreProperlySet()
     {
@@ -32,10 +31,6 @@ class FuncTest extends PHPUnit_Framework_TestCase
         self::assertEquals('function', $func->getType());
         self::assertEquals('TestFunc', $func->getName());
         self::assertTrue($func->getIsSync());
-        self::assertEquals([
-            'range' => true,
-            'eval' => 'someEval()'
-        ], $func->getOpts());
     }
 
     /**
@@ -43,7 +38,6 @@ class FuncTest extends PHPUnit_Framework_TestCase
      * @covers ::getType
      * @covers ::getName
      * @covers ::getIsSync
-     * @covers ::getOpts
      */
     public function testNamedConstructorSetsAllValues()
     {
@@ -51,10 +45,6 @@ class FuncTest extends PHPUnit_Framework_TestCase
         self::assertEquals('function', $func->getType());
         self::assertEquals('TestFunc', $func->getName());
         self::assertTrue($func->getIsSync());
-        self::assertEquals([
-            'range' => true,
-            'eval' => 'someEval()'
-        ], $func->getOpts());
     }
 
     /**
@@ -152,7 +142,7 @@ class FuncTest extends PHPUnit_Framework_TestCase
     public function testEvalIsNullable()
     {
         $func = new Func(['name' => 'TestFunc', 'eval' => null]);
-        self::assertArrayNotHasKey('eval', $func->getOpts());
+        self::assertArrayNotHasKey('eval', $func->getSpecArray()['opts']);
     }
 
     /**

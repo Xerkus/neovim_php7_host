@@ -11,10 +11,7 @@ use RuntimeException;
  */
 final class RawHandler implements RpcSpec
 {
-    private $name;
-    private $sync = false;
-    private $opts = [];
-    private $pluginPath;
+    use RpcSpecTrait;
 
     /**
      *Array of values as passed from annotations reader
@@ -27,7 +24,7 @@ final class RawHandler implements RpcSpec
             throw new RuntimeException('Rpc handler name is required');
         }
         $this->setName($name);
-        $this->setSync($values['sync'] ?? $this->sync);
+        $this->setSync($values['sync'] ?? false);
     }
 
     /**
@@ -46,7 +43,7 @@ final class RawHandler implements RpcSpec
 
     public function getMethodName() : string
     {
-        return $this->name;
+        return $this->getName();
     }
 
     public function getType() : string
@@ -54,45 +51,9 @@ final class RawHandler implements RpcSpec
         return 'raw_handler';
     }
 
-    public function getName() : string
+    protected function prepareOpts() : array
     {
-        return $this->name;
-    }
-
-    public function getIsSync() : bool
-    {
-        return $this->sync;
-    }
-
-    public function getOpts() : array
-    {
-        return $this->opts;
-    }
-
-    public function getSpecArray() : array
-    {
-        return [
-            'type' => $this->getType(),
-            'name' => $this->getName(),
-            'sync' => $this->sync,
-            'opts' => $this->opts,
-        ];
-    }
-
-    public function getPluginPath()
-    {
-        return $this->pluginPath;
-    }
-
-    /**
-     * Returns spec with plugin path $pluginPath
-     */
-    public function withPluginPath(string $pluginPath = null) : RpcSpec
-    {
-        $new = clone($this);
-        $new->pluginPath = $pluginPath;
-
-        return $new;
+        return [];
     }
 
     public function getShouldExport() : bool
