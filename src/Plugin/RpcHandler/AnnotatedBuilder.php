@@ -22,11 +22,7 @@ final class AnnotatedBuilder
     {
         $this->reader = $reader;
         // horrible hack, remove it as soon as v2 is out
-        // @codeCoverageIgnoreStart
-        AnnotationRegistry::registerLoader(function ($class) {
-            return class_exists($class, true);
-        });
-        // @codeCoverageIgnoreEnd
+        AnnotationRegistry::registerLoader("class_exists");
     }
 
     public function getAnnotatedHandlers(Plugin $plugin) : array
