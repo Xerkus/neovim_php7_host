@@ -101,7 +101,7 @@ class CommandTest extends PHPUnit_Framework_TestCase
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Options range and count are mutually exclusive');
-        $cmd = new Command([
+        new Command([
             'name' => 'TestCommand',
             'range' => true,
             'count' => true,
@@ -125,7 +125,7 @@ class CommandTest extends PHPUnit_Framework_TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageRegExp('/Nargs value can only be one of/');
-        $cmd = new Command([
+        new Command([
             'name' => 'TestCommand',
             'nargs' => '$',
         ]);

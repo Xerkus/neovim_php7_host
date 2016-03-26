@@ -43,6 +43,8 @@ final class Command implements RpcSpec
 
     /**
      *  Create nvim function spec from positional parameters
+     *  @var $range string|bool
+     *  @var $count string|bool
      */
     public static function createCommand(
         string $name,
