@@ -9,11 +9,18 @@ use Xerkus\Neovim\Nvim;
 
 class ThreadedContainer extends Thread
 {
+    /**
+     * Timeout for plugins to provide handlers.
+     *
+     * 30 seconds is probably too high. Plugins should do lazy init
+     */
+    const PLUGIN_INIT_TIMEOUT = 30;
+
     private $pluginPath;
     private $nvim;
     private $commandQueue;
     private $registerAutoloader;
-    private $pluginHandlers = [];
+    private $registeredRpcHandlers = [];
 
     private static $plugin;
     private static $requestHandlers = [];
@@ -75,13 +82,20 @@ class ThreadedContainer extends Thread
         });
     }
 
-    public function getPluginHandlers() : array
+    public function getRegisteredRpcHandlers() : array
     {
         return $this->synchronized(function () {
-            while ($this->pluginHandlers == null) {
-                $this->wait();
-                return $this->pluginHandlers;
+            $stime = time();
+            // @TODO wait on handlers AND thread state?
+            while ($this->registeredRpcHandlers == null) {
+                if (time() - $stime >= self::PLUGIN_INIT_TIMEOUT) {
+                    throw new RuntimeException(
+                        'Plugin failed to provide rpc handlers in a timely fashion'
+                    );
+                }
+                $this->wait(self::PLUGIN_INIT_TIMEOUT);
             }
+            return $this->registeredRpcHandlers;
         });
     }
 
@@ -123,19 +137,15 @@ class ThreadedContainer extends Thread
             if ($spec->getIsSync()) {
                 // @TODO throw exception if such handler already exists
                 self::$requestHandlers[$methodName] = $handler;
-                $exposeHandlers[] = $handler->withCallback(
-                    [$this, 'handleRequest']
-                );
+                $exposeHandlers[] = $handler->getSpec();
             } else {
                 // @TODO throw exception if such handler already exists
                 self::$notificationHandlers[$methodName] = $handler;
-                $exposeHandlers[] = $handler->withCallback(
-                    [$this, 'handleNotification']
-                );
+                $exposeHandlers[] = $handler->getSpec();
             }
         }
-        $this->synchronized(function (array $handlersToExposeToParentThread) {
-            $this->pluginHandlers = $handlersToExposeToParentThread;
+        $this->synchronized(function (array $registeredRpcHandlers) {
+            $this->registeredRpcHandlers = $registeredRpcHandlers;
             $this->notify();
         }, $exposeHandlers);
     }

@@ -31,8 +31,8 @@ include __DIR__ . '/../vendor/autoload.php';
 //remove script path
 array_shift($argv);
 
-if (!count($argv)) {
-    fwrite(STDERR, "No plugins were specified\n");
+if (count($argv) < 1) {
+    fwrite(STDERR, "Must specify at least one plugin as argument\n");
     exit(1);
 }
 
@@ -40,7 +40,9 @@ try {
     // currently only stdin/stdout server is supported by rpcstart()
     // @TODO add logging
     $session = new \Xerkus\Neovim\MsgpackRpc\Session(
-        new \Xerkus\Neovim\MsgpackRpc\Server\StdServer()
+        new \Xerkus\Neovim\MsgpackRpc\Stream(
+            new \Xerkus\Neovim\MsgpackRpc\Stream\StdServer()
+        )
     );
     $pluginHost = new \Xerkus\Neovim\Plugin\Host($session);
     $pluginHost->start($argv);
