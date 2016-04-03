@@ -70,7 +70,7 @@ class Host
         //@TODO handle missing handler
     }
 
-    public function onNotification($args)
+    public function onNotification($rpcMethod, $args)
     {
         if (isset($this->notificationHandlers[$rpcMethod])) {
             $this->notificationHandlers[$rpcMethod]($args);

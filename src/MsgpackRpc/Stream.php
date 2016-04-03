@@ -31,7 +31,7 @@ class Stream extends Threaded
         }
         $this->run = true;
         $unpacker = new MessagePackUnpacker;
-        while($this->run) {
+        while ($this->run) {
             // Executed before reading and feeding data in case there is
             // message left from previous cycle
             if ($unpacker->execute()) {

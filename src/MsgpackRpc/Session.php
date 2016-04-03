@@ -53,7 +53,7 @@ class Session extends Threaded
             [$this, 'handleResponse']
         );
 
-        $this->stream->listen(function($message) use ($messageHandler){
+        $this->stream->listen(function ($message) use ($messageHandler) {
             $messageHandler->handleMessage($message);
         });
     }
