@@ -41,7 +41,7 @@ class ThreadedContainer extends Thread
 
     public function run()
     {
-        $this->registerAutoloader();
+        ($this->registerAutoloader)();
         $plugin = $this->loadPlugin();
         $this->initHandlers($plugin);
 

@@ -5,6 +5,7 @@ namespace Xerkus\Neovim\Plugin;
 
 use RuntimeException;
 use Xerkus\Neovim\MsgpackRpc\Session;
+use Xerkus\Neovim\MsgpackRpc\Response;
 
 /**
  * Plugin host
@@ -20,9 +21,11 @@ class Host
     {
         $this->session = $session;
         $this->requestHandlers = [
-            'poll' => function($msg, Response $response) {
+            'poll' => function ($args, Response $response) {
                 $response->send('ok');
-            }
+            },
+            'specs' => [$this, 'onSpecsRequest'],
+            'shutdown' => [$this, 'shutdown'],
         ];
     }
 
@@ -31,19 +34,16 @@ class Host
         if (count($plugins) < 1) {
             throw new \RuntimException('Must specify at least one plugin');
         }
-        $this->session->run(
+        $this->loadPlugins($plugins);
+        $this->session->sessionStart(
             [$this, 'onRequest'],
-            [$this, 'onNotification'],
-            function() use ($plugins) {
-                $this->loadPlugins($plugins);
-            }
+            [$this, 'onNotification']
         );
     }
 
     public function loadPlugins(array $plugins)
     {
         foreach ($plugins as $pluginPath) {
-            $pluginPath = realpath($pluginPath);
             if (!is_readable($pluginPath)) {
                 // send error plugin is not readable?
                 continue;
@@ -53,26 +53,58 @@ class Host
                 continue;
             }
             /** @var $plugin StdClass */
-            $plugin = $this->startPluginContainer($pluginPath);
-
-            $plugin->getHandlersDefinitions()
-            $handlers = $this->loadPlugin($pluginPath);
-
-            $this->plugins[$pluginPath] = $this->startPluginContainer($pluginPath);
+            $plugin = new ThreadedContainer($pluginPath, $this->session);
+            // start all of the containers first, handle failed later
+            $plugin->start();
+            $this->plugins[$pluginPath] = $plugin;
         }
         $this->initHandlers();
     }
 
-    public function onRequest($message, Response $response)
+    public function onRequest($rpcMethod, $args, Response $response)
     {
-        if (isset($this->requestHandlers[$message[2]])) {
-            $this->requestHandlers[$message[2]]($message, $response);
+        if (isset($this->requestHandlers[$rpcMethod])) {
+            $this->requestHandlers[$rpcMethod]($args, $response);
         }
 
         //@TODO handle missing handler
     }
 
-    public function onNotification($message)
+    public function onNotification($args)
+    {
+        if (isset($this->notificationHandlers[$rpcMethod])) {
+            $this->notificationHandlers[$rpcMethod]($args);
+        }
+        //@TODO handle missing handler
+    }
+
+    public function onSpecsRequest($path, Response $response)
+    {
+        if (!isset($this->plugins[$path])) {
+            return $response->error('Plugin in path ' . $path . ' not found');
+        }
+        if (!$this->plugins[$path]->isRunning()) {
+            return $response->error('Spec request failed. Plugin thread gone away');
+        }
+        $handlers = $this->plugins[$path]->getRegisteredRpcHandlers();
+        $specs = [];
+        foreach ($handlers as $handler) {
+            $spec = $handler->getSpec();
+            if (!$spec->getShouldExport()) {
+                continue;
+            }
+            $specs[] = $spec->getSpecArray();
+        }
+        $response->send($specs);
+    }
+
+    public function shutdown()
+    {
+        //$this->unloadPlugins();
+        $this->session->stop();
+    }
+
+    private function initHandlers()
     {
 
     }
